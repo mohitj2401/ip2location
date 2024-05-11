@@ -11,7 +11,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylesheet" href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Ip2Loaction</title>
 </head>
 
@@ -62,7 +62,8 @@
                             {{ $item->longitude }}
                         </td>
                         <td>
-                            <a href="" class="btn btn-danger">Delete</a>
+                            <a href="javascript:void(0)" data-url="{{ route('delete.geolocation', $item->id) }}"
+                                class="btn btn-danger delete-log">Delete</a>
                         </td>
                     </tr>
                 @endforeach
@@ -76,8 +77,41 @@
     </script>
 
     <script src="//cdn.datatables.net/2.0.7/js/dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
         let table = new DataTable('#myTable');
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            $(document).on('click', '.delete-log', function() {
+
+                var logUrl = $(this).data('url');
+                console.log(logUrl);
+                var trObj = $(this);
+
+                if (confirm("Are you sure you want to delete this log?") == true) {
+                    $.ajax({
+                        url: logUrl,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: function(data) {
+
+                            trObj.parents("tr").remove();
+                        }
+                    });
+                }
+
+            });
+
+        });
     </script>
 </body>
 

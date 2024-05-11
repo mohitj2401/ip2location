@@ -62,6 +62,8 @@ class GeolocationLogController extends Controller
      */
     public function destroy(GeolocationLog $geolocationLog)
     {
+        $geolocationLog->delete();
+        return [];
     }
 
 

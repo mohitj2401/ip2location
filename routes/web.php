@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GeolocationLogController;
 
-Route::resource('/', GeolocationLogController::class);
+Route::get('/', [GeolocationLogController::class, 'index']);
 
-Route::get("/mylocation",[GeolocationLogController::class,'getMyLocation'])->name("mylocation");
+Route::delete('/geolocation-delete/{geolocationLog}', [GeolocationLogController::class, 'destroy'])->name('delete.geolocation');
+
+Route::get("/mylocation", [GeolocationLogController::class, 'getMyLocation'])->name("mylocation");
