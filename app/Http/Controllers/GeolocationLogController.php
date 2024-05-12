@@ -71,7 +71,7 @@ class GeolocationLogController extends Controller
     {
 
         $client = new \GuzzleHttp\Client();
-        $apiKey = env('ABSTRACT_API_KEY');
+        $apiKey = config('abstract.api_key');
         $user_ip = request()->ip();
         try {
             $response = $client->request('GET', 'https://ipgeolocation.abstractapi.com/v1/?api_key=' . $apiKey . '&ip_address=' . request()->ip());
